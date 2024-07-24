@@ -1,5 +1,3 @@
-**README.txt**
-
 # Equirectangular to Cubemap Conversion Script
 
 ## Overview
