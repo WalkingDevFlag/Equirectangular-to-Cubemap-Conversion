@@ -21,10 +21,28 @@ def convert_equirec_to_cubemap(equirec_path: str, output_dir: str, face_size: in
     # Convert equirectangular image to cubemap faces
     cubemap_faces = equirec_to_cubemap(equirec_img, face_size)
     
+    # Define face names
+    face_names = {
+        "front": 0,
+        "right": 1,
+        "back": 2,
+        "left": 3,
+        "up": 4,
+        "down": 5
+    }
+
     # Save each cubemap face image with GPS data if available
     gps_data = extract_gps_data(equirec_path)
-    face_names = [name for name, save in save_faces.items() if save]
-    save_cubemap_faces(cubemap_faces, base_name, output_dir, gps_data, face_names)
+    
+    # Ensure only selected faces are saved
+    selected_faces = [name for name, save in save_faces.items() if save]
+    for face_name in selected_faces:
+        index = face_names.get(face_name)
+        if index is not None:
+            face_img = cubemap_faces[index]
+            output_path = os.path.join(output_dir, f"{base_name}_{face_name}.jpg")
+            save_cubemap_faces([face_img], base_name, output_dir, gps_data, [face_name])
+            print(f"Saved {face_name} face for {base_name} to {output_path}")
 
 def main():
     # Path to the directory containing equirectangular images

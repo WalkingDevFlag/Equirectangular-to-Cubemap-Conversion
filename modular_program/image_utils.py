@@ -1,8 +1,10 @@
+# image_utils.py
+
 import cv2
 import numpy as np
 from PIL import Image
 import piexif
-import os
+import os  # Import os module
 
 def sample_pixels(begin: float, end: float, n: int) -> np.ndarray:
     """
